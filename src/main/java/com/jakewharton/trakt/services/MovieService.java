@@ -4,6 +4,7 @@ package com.jakewharton.trakt.services;
 import com.jakewharton.trakt.entities.ActionResponse;
 import com.jakewharton.trakt.entities.CheckinResponse;
 import com.jakewharton.trakt.entities.Comment;
+import com.jakewharton.trakt.entities.Movie;
 import com.jakewharton.trakt.entities.Response;
 import com.jakewharton.trakt.entities.Share;
 import com.jakewharton.trakt.entities.Stats;
@@ -163,12 +164,12 @@ public interface MovieService {
     );
 
     @GET("/movie/related.json/{apikey}/{id}")
-    List<Movie> related(
+    List<com.jakewharton.trakt.entities.Movie> related(
             @Path("id") String id
     );
 
     @GET("/movie/related.json/{apikey}/{id}/hidewatched")
-    List<Movie> relatedHideWatched(
+    List<com.jakewharton.trakt.entities.Movie> relatedHideWatched(
             @Path("id") String id
     );
 
