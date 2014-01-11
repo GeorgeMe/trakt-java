@@ -162,6 +162,16 @@ public interface MovieService {
             @Body Movies movies
     );
 
+    @GET("/movie/related.json/{apikey}/{id}")
+    List<Movie> related(
+            @Path("id") String id
+    );
+
+    @GET("/movie/related.json/{apikey}/{id}/hidewatched")
+    List<Movie> relatedHideWatched(
+            @Path("id") String id
+    );
+
     public static class Movie {
 
         public String imdb_id;
