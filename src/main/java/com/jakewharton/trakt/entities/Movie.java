@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.jakewharton.trakt.TraktEntity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Movie extends MediaBase implements TraktEntity {
     private static final long serialVersionUID = -1543214252495012419L;
@@ -18,5 +19,6 @@ public class Movie extends MediaBase implements TraktEntity {
     public String overview;
     public String certification; //TODO make enum
     public Boolean watched;
+    public List<String> genres;
 
 }
