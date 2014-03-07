@@ -3,6 +3,7 @@ package com.jakewharton.trakt.services;
 import com.jakewharton.trakt.BaseTestCase;
 import com.jakewharton.trakt.Trakt;
 import com.jakewharton.trakt.entities.Response;
+import com.jakewharton.trakt.entities.Settings;
 import com.jakewharton.trakt.enumerations.Status;
 
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class AccountServiceTest extends BaseTestCase {
 
     @Test
     public void test_settings() {
-        AccountService.Settings settings = getManager().accountService().settings();
+        Settings settings = getManager().accountService().settings();
         assertThat(settings).isNotNull();
         assertThat(settings.status).isEqualTo(Status.SUCCESS);
         assertThat(settings.message).isEqualTo("All settings for " + BaseTestCase.USERNAME);
