@@ -14,6 +14,7 @@ import com.jakewharton.trakt.entities.ActivityItem;
 import com.jakewharton.trakt.entities.ActivityItemBase;
 import com.jakewharton.trakt.entities.TvShowEpisode;
 import com.jakewharton.trakt.entities.TvShowSeason;
+import com.jakewharton.trakt.entities.Watching;
 import com.jakewharton.trakt.enumerations.ActivityAction;
 import com.jakewharton.trakt.enumerations.ActivityType;
 import com.jakewharton.trakt.enumerations.DayOfTheWeek;
@@ -157,6 +158,24 @@ public abstract class TraktHelper {
                         }
                     }
                 });
+        builder.registerTypeAdapter(Watching.class,
+                new JsonDeserializer<Watching>() {
+                    //XXX See: https://groups.google.com/d/topic/traktapi/GQlT9HfAEjw/discussion
+                    @Override
+                    public Watching deserialize(JsonElement json, Type typeOfT,
+                            JsonDeserializationContext context) throws JsonParseException {
+                        if (json.isJsonArray()) {
+                            if (json.getAsJsonArray().size() != 0) {
+                                throw new JsonParseException(
+                                        "\"watching\" field returned a non-empty array.");
+                            }
+                            return null;
+                        } else {
+                            return context.deserialize(json, Watching.class);
+                        }
+                    }
+                });
+
         //enum types
         builder.registerTypeAdapter(ActivityAction.class, new JsonDeserializer<ActivityAction>() {
             @Override
