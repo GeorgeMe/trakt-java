@@ -37,13 +37,10 @@ public interface AccountService {
     @POST("/account/test/{apikey}")
     Response test();
 
-    static class NewAccount {
-
-        String username;
-
-        String password;
-
-        String email;
+    public static class NewAccount {
+        public String username;
+        public String password;
+        public String email;
 
         public NewAccount(String username, String passwordSha1Hash, String email) {
             this.username = username;
@@ -53,120 +50,104 @@ public interface AccountService {
     }
 
     static class Settings extends Response {
+        public Profile profile;
+        public Account account;
+        public Viewing viewing;
+        public Connections connections;
+        public SharingText sharing_text;
 
-        Profile profile;
-
-        Account account;
-
-        Viewing viewing;
-
-        Connections connections;
-
-        SharingText sharing_text;
-
-        static class Profile {
-
-            String username;
-
-            String full_name;
-
-            String gender;
-
-            Integer age;
-
-            String location;
-
-            String about;
-
-            int joined;
-
-            int last_login;
-
-            String avatar;
-
-            String url;
-
-            boolean vip;
+        public  static class Profile {
+            public String username;
+            public String full_name;
+            public String gender;
+            public Integer age
+            public String location;
+            public String about;
+            public int joined;
+            public int last_login;
+            public String avatar;
+            public String url;
+            public boolean vip;
         }
 
-        static class Account {
+        public static class Account {
 
             /**
              * <a href="http://go.trakt.tv/HX7SfQ">Info about timezone descriptors.</a>
              */
-            String timezone;
+            public String timezone;
 
-            boolean use_24hr;
+            public boolean use_24hr;
 
             @SerializedName("protected")
-            boolean _protected;
+            public boolean _protected;
         }
 
-        static class Viewing {
+        public static class Viewing {
 
-            Ratings ratings;
+            public Ratings ratings;
 
-            Shouts shouts;
+            public Shouts shouts;
 
-            static class Ratings {
+            public static class Ratings {
 
                 /**
                  * simple, advanced
                  */
-                String mode;
+                public String mode;
             }
 
-            static class Shouts {
+            public static class Shouts {
 
-                boolean show_badges;
+                public boolean show_badges;
 
-                boolean show_spoilers;
-            }
-        }
-
-        static class Connections {
-
-            Facebook facebook;
-
-            Twitter twitter;
-
-            Tumblr tumblr;
-
-            Path path;
-
-            Prowl prowl;
-
-            static class Facebook {
-
-                boolean connected;
-            }
-
-            static class Twitter {
-
-                boolean connected;
-            }
-
-            static class Tumblr {
-
-                boolean connected;
-            }
-
-            static class Path {
-
-                boolean connected;
-            }
-
-            static class Prowl {
-
-                boolean connected;
+                public boolean show_spoilers;
             }
         }
 
-        static class SharingText {
+        public static class Connections {
 
-            String watching;
+            public Facebook facebook;
 
-            String watched;
+            public Twitter twitter;
+
+            public Tumblr tumblr;
+
+            public Path path;
+
+            public Prowl prowl;
+
+            public static class Facebook {
+
+                public  boolean connected;
+            }
+
+            public static class Twitter {
+
+                public boolean connected;
+            }
+
+            public static class Tumblr {
+
+                public boolean connected;
+            }
+
+            public static class Path {
+
+                public boolean connected;
+            }
+
+            public static class Prowl {
+
+                public boolean connected;
+            }
+        }
+
+        public static class SharingText {
+
+            public String watching;
+
+            public String watched;
         }
     }
 
