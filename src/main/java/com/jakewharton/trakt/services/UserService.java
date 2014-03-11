@@ -4,7 +4,7 @@ package com.jakewharton.trakt.services;
 import com.jakewharton.trakt.entities.Movie;
 import com.jakewharton.trakt.entities.TvShow;
 import com.jakewharton.trakt.entities.UserProfile;
-import com.jakewharton.trakt.entities.Watching;
+import com.jakewharton.trakt.entities.WatchingBase;
 
 import java.util.List;
 
@@ -216,7 +216,7 @@ public interface UserService {
     );
 
     @GET("/user/watching.json/{apikey}/{username}")
-    Watching watching(
+    WatchingBase watching(
             @EncodedPath("username") String username
     );
 
