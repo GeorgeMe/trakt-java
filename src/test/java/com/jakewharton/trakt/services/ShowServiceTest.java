@@ -92,14 +92,14 @@ public class ShowServiceTest extends BaseTestCase {
         assertNotNull("Show year was null.", show.year);
         assertEquals("Show year does not match.", 2009, show.year.intValue());
         assertNotNull("Show URL was null.", show.url);
-        assertThat(show.first_aired_utc).isEqualTo(1256869800);
+        assertThat(show.first_aired_utc).isEqualTo(1256868000);
         assertEquals("Show country does not match.", "United States", show.country);
         assertNotNull("Show overview was null.", show.overview);
         assertNotNull("Show runtime was null.", show.runtime);
         assertEquals("Show runtime does not match.", 30, show.runtime.intValue());
         assertThat(show.network).isEqualTo("FXX");
         assertThat(show.airDay).isEqualTo(DayOfTheWeek.Wednesday);
-        assertEquals("Show air time does not mtach.", "10:30pm", show.airTime);
+        assertEquals("Show air time does not mtach.", "10:00pm", show.airTime);
         assertEquals("Show certification does not match.", "TV-MA", show.certification);
         assertEquals("Show IMDB ID does not match.", "tt1480684", show.imdb_id);
         assertThat(show.tvdb_id).isEqualTo(114701);
@@ -119,7 +119,7 @@ public class ShowServiceTest extends BaseTestCase {
         assertEquals("Episode title does not match.", "The Draft", episode.title);
         assertNotNull("Episode overview was null.", episode.overview);
         assertNotNull("Episode URL was null.", episode.url);
-        assertThat(episode.first_aired_utc).isEqualTo(1256869800);
+        assertThat(episode.first_aired_utc).isEqualTo(1256868000);
         assertNotNull("Episode images was null.", episode.images); //TODO own test cases
         assertNotNull("Episode ratings was null.", episode.ratings); //TODO own test cases
         assertNotNull("Episode watched boolean was null.", episode.watched);
@@ -237,7 +237,7 @@ public class ShowServiceTest extends BaseTestCase {
         assertThat(show.country).isEqualTo("United States");
         assertThat(show.overview).isNotNull();
         assertThat(show.runtime).isNotNull();
-        assertThat(show.runtime.intValue()).isEqualTo(45);
+        assertThat(show.runtime.intValue()).isEqualTo(60);
         assertThat(show.network).isEqualTo("AMC");
         assertThat(show.airDay).isEqualTo(DayOfTheWeek.Sunday);
         assertThat(show.airTime).isEqualTo("9:00pm");
