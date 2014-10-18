@@ -8,11 +8,14 @@ import com.jakewharton.trakt.entities.Movie;
 import com.jakewharton.trakt.entities.Response;
 import com.jakewharton.trakt.entities.Share;
 import com.jakewharton.trakt.entities.Stats;
+import com.jakewharton.trakt.enumerations.Extended2;
+import com.jakewharton.trakt.enumerations.HideWatched;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.EncodedPath;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
@@ -23,14 +26,14 @@ import retrofit.http.Path;
 public interface MovieService {
 
     /**
-     * Notify trakt that a user wants to cancel their current check in. <br/> <br/>
+     * Notify trakt that a user wants to cancel their current check in. <p>
      * <em>Warning</em>: This method requires a developer API key.
      */
     @POST("/movie/cancelcheckin/{apikey}")
     Response cancelcheckin();
 
     /**
-     * Notify Trakt that a user has stopped watching a movie. <br/> <br/> <em>Warning</em>: This
+     * Notify Trakt that a user has stopped watching a movie. <p> <em>Warning</em>: This
      * method requires a developer API key.
      */
     @POST("/movie/cancelwatching/{apikey}")
@@ -92,6 +95,18 @@ public interface MovieService {
             @Body Movies movies
     );
 
+    /**
+     * Get the top 10 related movies.
+     *
+     * @param hideWatched If this parameter is set and valid auth is sent, watched movies will be
+     *                    filtered out.
+     */
+    @GET("/movie/related.json/{apikey}/{title}/{hidewatched}")
+    List<com.jakewharton.trakt.entities.Movie> related(
+            @Path("title") String imdbIdOrSlug,
+            @Path("hidewatched") HideWatched hideWatched
+    );
+
     @POST("/movie/seen/{apikey}")
     ActionResponse seen(
             @Body Movies movies
@@ -129,6 +144,19 @@ public interface MovieService {
     @GET("/movie/summary.json/{apikey}/{title}")
     com.jakewharton.trakt.entities.Movie summary(
             @Path("title") String imdbIdOrSlug
+    );
+
+    /**
+     * Returns information for one or more movies.
+     *
+     * @param extended2 By default, this returns the minimal info. Set to NORMAL for more info (url,
+     *                  images, genres). Set to FULL for full info. Only send this if you really
+     *                  need the full dump as it doubles the data size being sent back.
+     */
+    @GET("/movie/summaries.json/{apikey}/{title}{extended}")
+    List<com.jakewharton.trakt.entities.Movie> summaries(
+            @EncodedPath("title") String imdbIdsOrSlugs,
+            @EncodedPath("extended") Extended2 extended2
     );
 
     /**
@@ -226,6 +254,17 @@ public interface MovieService {
 
         public MovieCheckin(String imdbId, String message, String appVersion, String appDate) {
             this(imdbId, appVersion, appDate);
+            this.message = message;
+        }
+
+        public MovieCheckin(int tmdbId, String appVersion, String appDate) {
+            super(tmdbId);
+            this.app_version = appVersion;
+            this.app_date = appDate;
+        }
+
+        public MovieCheckin(int tmdbId, String message, String appVersion, String appDate) {
+            this(tmdbId, appVersion, appDate);
             this.message = message;
         }
     }

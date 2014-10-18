@@ -1,6 +1,55 @@
 Change Log
 ==========
 
+3.3.1 *(2014-08-12)*
+--------------------
+
+ * Fix `show/summary` not returning user data with default extended flag
+   (URL had trailing `/`, causing redirect, stripping auth header).
+ * Remove trailing `/` on all other methods using either `Extended` or `Extended2` flag.
+
+3.3.0 *(2014-08-12)*
+--------------------
+
+ * Easier customization of `RestAdapter`: set your own HTTP client or executor by overriding `newRestAdapterBuilder()`.
+ * Add `okhttp` and `okhttp-urlconnection` 2.0.0 as optional dependencies.
+ * Require Java 1.7.
+
+3.2.1 *(2014-08-10)*
+--------------------
+
+ * Use HTTPS.
+ * Use okhttp 1.6.0.
+ * Update to [retrofit][1] 1.6.1.
+
+3.2.0 *(2014-04-26)*
+--------------------
+
+ * Added `activity/friends`.
+ * Update to [retrofit][1] 1.5.0.
+
+3.1.0 *(2014-03-15)*
+--------------------
+
+ * Added `user/progress/watched` and `user/progress/collected` endpoints. Thanks @samicemalone!
+ * Added `search/movies`. Thanks @porzione!
+ * Change fest dependency scope to `test`.
+
+3.0.0 *(2014-02-13)*
+------------------------
+There were some API breaking changes due to the introduction of a new `Extended` enum.
+E.g. instead of calling `libraryShowsAllMinimum(username)` call `libraryShowsAll(username, Extended.MIN)`.
+ * `ExtendedParam` replaced with `Extended`, adds a `DEFAULT` value.
+ * `user/library/shows` endpoints add `Extended` param, `-Minimum` and `-Extended` versions are dropped.
+ * Added `user/library/movies/` endpoints.
+ * Added `movie/related` endpoint.
+ * Added `show/summaries` and `movie/summaries`.
+ * Added `user/calendar/shows` endpoint.
+ * Add `last_updated` field.
+ * Support `MovieComment` with TMDb id.
+ * Use [retrofit][1] 1.4.1.
+
+
 2.0.1 *(2013-11-03)*
 ------------------------
 
@@ -14,7 +63,7 @@ Change Log
  * `ServiceManager` is now just `Trakt`, endpoints do not require you to call `.fire()` anymore either.
  * For now this is NOT published to a Maven repository, let me know if there is demand.
  * Start testing with FEST.
- * Use retrofit 1.2.2.
+ * Use [retrofit][1] 1.2.2.
 
 
 1.3.0 *(2011-12-13)*
@@ -69,3 +118,5 @@ Change Log
 --------------------
 
 Initial version.
+
+[1]: https://github.com/square/retrofit/blob/master/CHANGELOG.md

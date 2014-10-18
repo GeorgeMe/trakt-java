@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
@@ -12,20 +13,23 @@ import com.google.gson.reflect.TypeToken;
 
 import com.jakewharton.trakt.entities.ActivityItem;
 import com.jakewharton.trakt.entities.ActivityItemBase;
+import com.jakewharton.trakt.entities.Images;
 import com.jakewharton.trakt.entities.TvShowEpisode;
+import com.jakewharton.trakt.entities.TvShowProgress;
 import com.jakewharton.trakt.entities.TvShowSeason;
 import com.jakewharton.trakt.entities.Watching;
 import com.jakewharton.trakt.entities.WatchingBase;
 import com.jakewharton.trakt.enumerations.ActivityAction;
 import com.jakewharton.trakt.enumerations.ActivityType;
 import com.jakewharton.trakt.enumerations.DayOfTheWeek;
-import com.jakewharton.trakt.enumerations.ExtendedParam;
+import com.jakewharton.trakt.enumerations.Extended;
 import com.jakewharton.trakt.enumerations.Gender;
 import com.jakewharton.trakt.enumerations.ListItemType;
 import com.jakewharton.trakt.enumerations.ListPrivacy;
 import com.jakewharton.trakt.enumerations.MediaType;
 import com.jakewharton.trakt.enumerations.Rating;
 import com.jakewharton.trakt.enumerations.RatingType;
+import com.jakewharton.trakt.enumerations.SortType;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -98,6 +102,25 @@ public abstract class TraktHelper {
                 return value;
             }
         });
+        builder.registerTypeAdapter(TvShowProgress.NextEpisode.class,
+            new JsonDeserializer<TvShowProgress.NextEpisode>() {
+                @Override
+                public TvShowProgress.NextEpisode deserialize(JsonElement json, Type typeOfT,
+                        JsonDeserializationContext context) throws JsonParseException {
+                    if(json.isJsonObject()) {
+                        JsonObject o = json.getAsJsonObject();
+                        TvShowProgress.NextEpisode next = new TvShowProgress.NextEpisode(
+                            o.get("season").getAsInt(),
+                            o.get("number").getAsInt(),
+                            o.get("title").getAsString(),
+                            o.get("first_aired").getAsInt());
+                        next.images = context.deserialize(o.get("images"), new TypeToken<Images>() {}.getType());
+                        return next;
+                    }
+                    return null;
+                }
+            }
+        );
         builder.registerTypeAdapter(TvShowSeason.Episodes.class,
                 new JsonDeserializer<TvShowSeason.Episodes>() {
                     @Override
@@ -199,11 +222,11 @@ public abstract class TraktHelper {
                 return DayOfTheWeek.fromValue(arg0.getAsString());
             }
         });
-        builder.registerTypeAdapter(ExtendedParam.class, new JsonDeserializer<ExtendedParam>() {
+        builder.registerTypeAdapter(Extended.class, new JsonDeserializer<Extended>() {
             @Override
-            public ExtendedParam deserialize(JsonElement json, Type typeOfT,
+            public Extended deserialize(JsonElement json, Type typeOfT,
                     JsonDeserializationContext context) throws JsonParseException {
-                return ExtendedParam.fromValue(json.getAsString());
+                return Extended.fromValue(json.getAsString());
             }
         });
         builder.registerTypeAdapter(Gender.class, new JsonDeserializer<Gender>() {
@@ -255,7 +278,13 @@ public abstract class TraktHelper {
                 return RatingType.fromValue(arg0.getAsString());
             }
         });
-
+        builder.registerTypeAdapter(SortType.class, new JsonDeserializer<SortType>() {
+            @Override
+            public SortType deserialize(JsonElement arg0, Type arg1,
+                    JsonDeserializationContext arg2) throws JsonParseException {
+                return SortType.fromValue(arg0.getAsString());
+            }
+        });
         return builder;
     }
 }

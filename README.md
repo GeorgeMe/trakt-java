@@ -10,15 +10,53 @@ credentials and API key.
 
 Usage
 =====
+Add the following dependency to your Gradle project:
+
+```
+compile 'com.uwetrottmann:trakt-java:3.3.1'
+```
+
+Or for Maven:
+
+```
+<dependency>
+  <groupId>com.uwetrottmann</groupId>
+  <artifactId>trakt-java</artifactId>
+  <version>3.3.1</version>
+</dependency>
+```
 
 Dependencies
 ------------
+If you rather use the [released jar][3], add dependencies yourself as you see fit.
+For example for Gradle:
 
-The [released jar][4] is built without dependencies, add these yourself as you see fit.
-For example in a gradle.build file:
 ```
-compile 'com.squareup.okhttp:okhttp:1.2.1' // not mandatory, but greatly recommended
-compile 'com.squareup.retrofit:retrofit:1.2.2'
+compile 'com.squareup.retrofit:retrofit:1.6.1'
+compile 'com.squareup.okhttp:okhttp:2.0.0' // not mandatory, but greatly recommended
+compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0' // not mandatory, but greatly recommended
+```
+
+Or for Maven:
+
+```
+<dependency>
+    <groupId>com.squareup.retrofit</groupId>
+    <artifactId>retrofit</artifactId>
+    <version>1.6.1</version>
+</dependency>
+<!-- not mandatory, but greatly recommended: -->
+<dependency>
+  <groupId>com.squareup.okhttp</groupId>
+  <artifactId>okhttp</artifactId>
+  <version>2.0.0</version>
+</dependency>
+<!-- not mandatory, but greatly recommended: -->
+<dependency>
+  <groupId>com.squareup.okhttp</groupId>
+  <artifactId>okhttp-urlconnection</artifactId>
+  <version>2.0.0</version>
+</dependency>
 ```
 
 Calling endpoints
@@ -28,14 +66,17 @@ Calling endpoints
     trakt.setAuthentication("username", "sha1_of_password");
     trakt.setApiKey("api_key");
     
+    // Create service instance
+    ShowService showService = trakt.showService();
+
     // Get trending shows on trakt
-    List<TvShow> shows = getManager().showService().trending();
+    List<TvShow> shows = showService.trending();
     for (TvShow show : shows) {
     	System.out.println("Title: " + show.title);
     }
     
     // Post an episode as seen
-    Response response = getManager().showService().episodeSeen(new ShowService.Episodes(
+    Response response = showService.episodeSeen(new ShowService.Episodes(
         153021 // TVDb id of show, 1 // season, 1 // episode
     ));
     if (response != null && response.status == Status.SUCCESS) {
@@ -52,7 +93,7 @@ Original Implementation
 License
 =======
 
-    Copyright 2013 Uwe Trottmann
+    Copyright 2013-2014 Uwe Trottmann
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -73,3 +114,4 @@ License
  [2]: https://github.com/square/retrofit
  [3]: https://github.com/JakeWharton/trakt-java/
  [4]: https://github.com/UweTrottmann/trakt-java/releases
+ [5]: https://github.com/square/okhttp
