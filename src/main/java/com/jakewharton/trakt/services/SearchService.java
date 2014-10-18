@@ -30,12 +30,12 @@ public interface SearchService {
 
     @GET("/search/movies.json/{apikey}/{query}")
     List<Movie> movies(
-            @EncodedPath("query") String query
+            @Path("query") String query
     );
 
     @GET("/search/movies.json/{apikey}/{query}/{limit}")
     List<Movie> movies(
-            @EncodedPath("query") String query,
+            @Path("query") String query,
             @Path("limit") int limit
     );
 
